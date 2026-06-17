@@ -2,6 +2,7 @@ import logging
 from sqlalchemy.exc import IntegrityError
 
 from src.database.db import AsyncSession
+from src.database.models import Category
 from src.api.schemas.category_schema import CreateCategory
 from src.repositories.category_repository import CategoryRepository
 from src.exception_handlers.category_exception import CategoryAlreadyExists
@@ -15,7 +16,7 @@ class CategoryService:
         self.session = session
         self.category_repo = CategoryRepository(session=self.session)
 
-    async def create_category(self, category: CreateCategory):
+    async def create_category(self, category: CreateCategory) -> dict[Category]:
         existing_category = await self.category_repo.get_category_by_name(
             name=category.name
         )
@@ -35,7 +36,7 @@ class CategoryService:
             )
         
         except IntegrityError:
-            logging.error(
+            logger.error(
                 "Category not created, Database error",
                 exc_info=True,
                 extra={"category_name": category.name}
@@ -43,18 +44,18 @@ class CategoryService:
 
             raise DatabaseException("Ошибка базы данных")
         
-        logging.info(
+        logger.info(
             "New category inserted in db",
             extra={"category_name": new_category.name}
         )
 
         return new_category
     
-    async def get_categories(self):
+    async def get_categories(self) -> dict[list[Category]]:
         categories = await self.category_repo.get_all()
 
-        logging.info(
-            "Success category list"
+        logger.info(
+            "Successful category list"
         )
 
         return categories

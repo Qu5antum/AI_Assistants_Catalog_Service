@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from sqlalchemy import select
 from uuid import UUID
+from typing import Dict, Any
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -41,8 +42,23 @@ class BaseRepository(AbstractRepository):
         obj = await self.session.get(self.model, id)
 
         return obj
-    
+     
     async def get_all(self):
         result = await self.session.execute(select(self.model))
 
         return result.scalars().all()
+    
+    async def update(self, id: UUID, data: Dict[str, Any]):
+        obj = await self.session.get(self.model, id)
+  
+        try:
+            if obj: 
+                for key, value in data.items():
+                    if hasattr(obj, key):
+                        setattr(obj, key, value)
+
+            return obj
+
+        except Exception:
+            await self.session.rollback()
+            raise

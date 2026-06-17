@@ -8,6 +8,7 @@ from src.core.logging import setup_logging
 from src.exception_handlers.base_exception import BaseAppException
 from src.api.endpoints.auth_endpoint import user_router
 from src.api.endpoints.category_endpoint import category_route
+from src.api.endpoints.assistants_endpoint import assistant_route
 from src.core.config import settings
 
 setup_logging()
@@ -44,6 +45,7 @@ app.add_middleware(
 
 app.include_router(user_router)
 app.include_router(category_route)
+app.include_router(assistant_route)
 
 
 @app.get("/_info", status_code=200)
