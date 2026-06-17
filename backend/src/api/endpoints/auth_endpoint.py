@@ -10,7 +10,7 @@ from src.auth.jwt_handler import JWTHandler
 
 user_router = APIRouter(
     prefix="/api/user",
-    tags=["users"]
+    tags=["User"]
 )
 
 

@@ -1,4 +1,3 @@
-from typing import Any
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.exc import IntegrityError
 from jose import JWTError

@@ -1,35 +1,51 @@
-from __future__ import annotations
-
-import json
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+import logging
 
+from src.middleware.logging_middleware import logging_middleware
+from src.core.logging import setup_logging
+from src.exception_handlers.base_exception import BaseAppException
 from src.api.endpoints.auth_endpoint import user_router
+from src.api.endpoints.category_endpoint import category_route
 from src.core.config import settings
 
-
-def _normalize_origins(origins: str | list[str] | None) -> list[str]:
-    if origins is None:
-        return ["*"]
-    if isinstance(origins, list):
-        return origins
-    try:
-        parsed = json.loads(origins)
-        if isinstance(parsed, list):
-            return parsed
-    except ValueError:
-        pass
-    return [origins]
+setup_logging()
+logger = logging.getLogger("errors")
 
 
-app = FastAPI(title=settings.APP_NAME or "AI Assistants")
+app = FastAPI(
+    title=settings.APP_NAME,
+    debug=settings.debug,
+    docs_url="/docs",
+)
+
+app.middleware("http")(logging_middleware)
+
+@app.exception_handler(BaseAppException)
+async def app_exception_handler(request, exc):
+    logger.error(
+        "Unhandled exception",
+        exc_info=True,
+        extra={"path": request.url.path}
+    )
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={"error": exc.message}
+    )
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=_normalize_origins(settings.cors_origins),
+    allow_origins=settings.cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 app.include_router(user_router)
+app.include_router(category_route)
 
 
+@app.get("/_info", status_code=200)
+async def info():
+    return {"app_name": settings.APP_NAME, "debug": settings.debug} 
