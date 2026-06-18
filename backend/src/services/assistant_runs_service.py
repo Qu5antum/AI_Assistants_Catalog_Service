@@ -1,9 +1,10 @@
 from sqlalchemy.exc import IntegrityError
 import logging
 from uuid import UUID
+from typing import Any, Sequence
 
 from src.database.db import AsyncSession
-from src.database.models import User, Status
+from src.database.models import User, Status, AssistantRun
 from src.api.schemas.assistant_schema import RequestAssistantRun
 from src.repositories.assistant_repository import AssistantRepository
 from src.repositories.assistant_run_repository import AssistantRunRepository
@@ -21,7 +22,7 @@ class AssistantRunsService:
         self.assistant_run_repo = AssistantRunRepository(session=self.session)
         self.mock_llm_provider = MockLLMProvider()
     
-    async def assistant_run(self, assistant_id: UUID, user: User, assistant_run_request: RequestAssistantRun):
+    async def assistant_run(self, assistant_id: UUID, user: User, assistant_run_request: RequestAssistantRun) -> dict[AssistantRun, Any]:
         assistant = await self.assistant_repo.get(
             id=assistant_id
         )
@@ -52,7 +53,7 @@ class AssistantRunsService:
         
         except IntegrityError:
             await self.session.rollback()
-            
+
             logger.error(
                 "Assistant run not created, Database error",
                 exc_info=True,
@@ -99,4 +100,24 @@ class AssistantRunsService:
         )
 
         return new_assistant_run
+
+    async def get_user_runs(self, user: User) -> Sequence[AssistantRun]:
+        user_runs = await self.assistant_run_repo.get_user_runs(user_id=user.id)
+
+        logger.info(
+            "User runs returned successfuly",
+            extra={"user_id": user.id}
+        )
+
+        return user_runs
+    
+    async def get_all_runs(self):
+        runs = await self.assistant_run_repo.get_all()
+
+        logger.info(
+            "runs returned successfuly",
+        )
+
+        return runs
+
     

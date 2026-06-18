@@ -27,3 +27,19 @@ async def run_assistant(
         user=user, 
         assistant_run_request=assistant_run_request
     )
+
+
+@run_assistant_route.get("/runs/my", status_code=200)
+async def get_user_runs(
+    user: User = Depends(require_roles(UserRole.ADMIN, UserRole.USER)),
+    assistant_run_service: AssistantRunsService = Depends(get_assistant_run_service)
+):
+    return await assistant_run_service.get_user_runs(user=user)
+
+
+@run_assistant_route.get("/admin/runs", status_code=200)
+async def get_admin_runs(
+    user: User = Depends(require_roles(UserRole.ADMIN)),
+    assistant_run_service: AssistantRunsService = Depends(get_assistant_run_service)
+):
+    return await assistant_run_service.get_all_runs()
