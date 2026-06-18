@@ -56,7 +56,7 @@ export async function login(email: string, password: string) {
 
   const data = await res.json()
   setToken(data.access_token)
-  setRole(data.role ?? 'USER')
+  setRole(data.role ?? 'user')
   return data
 }
 

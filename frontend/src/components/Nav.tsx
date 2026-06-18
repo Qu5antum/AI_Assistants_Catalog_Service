@@ -9,7 +9,7 @@ export default function Nav() {
       <Link to="/assistants" style={{ marginRight: 12 }}>Assistants</Link>
       <Link to="/runs/my" style={{ marginRight: 12 }}>My Runs</Link>
       <Link to="/categories" style={{ marginRight: 12 }}>Categories</Link>
-      {token && role === 'ADMIN' && (
+      {token && role === 'admin' && (
         <>
           <Link to="/admin/categories/new" style={{ marginRight: 12 }}>New Category</Link>
           <Link to="/admin/assistants/new" style={{ marginRight: 12 }}>New Assistant</Link>
