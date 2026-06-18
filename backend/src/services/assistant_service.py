@@ -4,7 +4,7 @@ from uuid import UUID
 from typing import Any, Optional, Sequence
 
 from src.database.db import AsyncSession
-from src.database.models import Assistant
+from src.database.models import Assistant, User
 from src.api.schemas.assistant_schema import CreateAssitant, UpdateAssistant
 from src.repositories.assistant_repository import AssistantRepository
 from src.repositories.category_repository import CategoryRepository
@@ -58,8 +58,8 @@ class AssistantService:
 
         return new_assistant
 
-    async def get_all_assistants(self):
-        assistants = await self.assistant_repo.get_all()
+    async def get_all_assistants(self, user: User):
+        assistants = await self.assistant_repo.get_all_assistants_by_user(user=user)
 
         logger.info(
             "Successful list assistants"
@@ -67,7 +67,7 @@ class AssistantService:
 
         return assistants
     
-    async def filter_assistant_by_category(self, category_id: UUID) -> Optional[Assistant]:
+    async def filter_assistant_by_category(self, user: User, category_id: UUID) -> Optional[Assistant]:
         category = await self.category_repo.get(id=category_id)
 
         if not category:
@@ -79,6 +79,7 @@ class AssistantService:
             raise CategoryNotFound("Категория не найдена")
         
         assistants = await self.assistant_repo.filter_assistant_with_category(
+            user=user,
             category_id=category_id
         )
 
@@ -89,8 +90,9 @@ class AssistantService:
 
         return assistants
     
-    async def search_assistant_by_name(self, assistant_name: str) -> Sequence[Assistant]:
+    async def search_assistant_by_name(self, user: User, assistant_name: str) -> Sequence[Assistant]:
         assistants = await self.assistant_repo.search_assistant_with_name(
+            user=user,
             assistant_name=assistant_name
         )
 
@@ -101,8 +103,11 @@ class AssistantService:
 
         return assistants
     
-    async def get_assistant_with_id(self, assistant_id: UUID) -> dict[Assistant, Any]:
-        assistant = await self.assistant_repo.get(id=assistant_id)
+    async def get_assistant_with_id(self, user: User, assistant_id: UUID) -> dict[Assistant, Any]:
+        assistant = await self.assistant_repo.get_assistant_with_id_and_user(
+            user=user, 
+            assistant_id=assistant_id
+        )
 
         if not assistant:
             logger.warning(
@@ -160,7 +165,3 @@ class AssistantService:
         )
 
         return update_assistant
-
-    
-
-

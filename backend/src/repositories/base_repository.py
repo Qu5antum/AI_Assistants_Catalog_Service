@@ -42,6 +42,13 @@ class BaseRepository(AbstractRepository):
         obj = await self.session.get(self.model, id)
 
         return obj
+    
+    """async def get_obj(self, id: UUID):
+        result = await self.session.execute(
+            select(self.model).where(self.model.id == id)
+        )
+
+        return result.scalar_one_or_none()"""
      
     async def get_all(self):
         result = await self.session.execute(select(self.model))
@@ -56,6 +63,9 @@ class BaseRepository(AbstractRepository):
                 for key, value in data.items():
                     if hasattr(obj, key):
                         setattr(obj, key, value)
+            
+            await self.session.commit()
+            await self.session.refresh(obj)
 
             return obj
 

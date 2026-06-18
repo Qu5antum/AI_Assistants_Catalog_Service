@@ -18,3 +18,7 @@ class UpdateAssistant(BaseModel):
     system_prompt: str | None = None
     example_prompt: str | None = None
     category_id: UUID | None = None
+
+
+class RequestAssistantRun(BaseModel):
+    user_prompt: str

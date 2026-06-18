@@ -156,16 +156,4 @@ class AuthService:
             extra={"email": str(user.email)}
         )
         
-        return {"detail": "Пользователь успешно создан."}
-
-        
-
-        
-        
-
-       
-
-
-        
-        
-        
+        return {"detail": "Пользователь успешно создан."}       

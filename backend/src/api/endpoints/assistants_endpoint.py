@@ -32,7 +32,7 @@ async def get_all_assistants(
     user: User = Depends(require_roles(UserRole.ADMIN, UserRole.USER)),
     assistant_service: AssistantService = Depends(get_assistant_service)
 ):
-    return await assistant_service.get_all_assistants()
+    return await assistant_service.get_all_assistants(user=user)
 
 
 @assistant_route.get("/assistant/category/{category_id}", status_code=200)
@@ -41,7 +41,7 @@ async def get_assistant_by_category_id(
     user: User = Depends(require_roles(UserRole.ADMIN, UserRole.USER)),
     assistant_service: AssistantService = Depends(get_assistant_service)
 ):
-    return await assistant_service.filter_assistant_by_category(category_id=category_id)
+    return await assistant_service.filter_assistant_by_category(category_id=category_id, user=user)
 
 
 @assistant_route.get("/assistant/search/{name}", status_code=200)
@@ -50,7 +50,7 @@ async def search_assistant(
     user: User = Depends(require_roles(UserRole.ADMIN, UserRole.USER)),
     assistant_service: AssistantService = Depends(get_assistant_service)
 ):
-    return await assistant_service.search_assistant_by_name(assistant_name=assistant_name)
+    return await assistant_service.search_assistant_by_name(assistant_name=assistant_name, user=user)
 
 
 @assistant_route.get("/assistant/{assistant_id}", status_code=200)
@@ -59,7 +59,7 @@ async def get_assistant(
     user: User = Depends(require_roles(UserRole.ADMIN, UserRole.USER)),
     assistant_service: AssistantService = Depends(get_assistant_service)
 ):
-    return await assistant_service.get_assistant_with_id(assistant_id=assistant_id)
+    return await assistant_service.get_assistant_with_id(assistant_id=assistant_id, user=user)
 
 
 @assistant_route.put("/admin/update/assistant/{assistant_id}", status_code=201)
