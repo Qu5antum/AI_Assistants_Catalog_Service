@@ -1,23 +1,27 @@
+from pydantic import validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Config(BaseSettings):
-    DB_HOST: str
-    DB_PORT: int
-    DB_USER: str
-    DB_PASS: str
-    DB_NAME: str
+    DB_HOST: str = "db"
+    DB_PORT: int = 5432
+    DB_USER: str = "postgres"
+    DB_PASS: str = "postgres"
+    DB_NAME: str = "ai_assistants"
 
-    SECRET_KEY: str
-    ALGORITHM: str
-    ACCESS_TOKEN_EXPIRE_MINUTES: int
-    REFRESH_TOKEN_EXPIRE_DAYS: int
+    SECRET_KEY: str = "your-secret-key-change-me"
+    ALGORITHM: str = "HS256"
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
+    REFRESH_TOKEN_EXPIRE_DAYS: int = 7
 
 
-    APP_NAME: str = "AI_assisstans"
+    APP_NAME: str = "AI_assistants"
     debug: bool = True
-    cors_origins: list[str] = ["*"]
+    cors_origins: list[str] = [
+        "http://localhost:3000",
+        "http://localhost:3000/",
+    ]
 
-    model_config = SettingsConfigDict(env_file=".env")
+    model_config = SettingsConfigDict(extra="ignore")
 
     @property
     def URL_DATABASE(self) -> str:
