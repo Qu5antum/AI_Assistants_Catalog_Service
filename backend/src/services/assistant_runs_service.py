@@ -111,7 +111,7 @@ class AssistantRunsService:
 
         return user_runs
     
-    async def get_all_runs(self):
+    async def get_all_runs(self) -> Sequence[AssistantRun]:
         runs = await self.assistant_run_repo.get_all()
 
         logger.info(

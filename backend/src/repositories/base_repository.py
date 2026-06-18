@@ -72,3 +72,11 @@ class BaseRepository(AbstractRepository):
         except Exception:
             await self.session.rollback()
             raise
+
+    async def delete(self, id: UUID):
+        obj = await self.session.get(self.model, id)
+
+        await self.session.delete(obj)
+        await self.session.commit()
+
+        return obj

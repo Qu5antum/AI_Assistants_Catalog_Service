@@ -36,8 +36,8 @@ class MockLLMProvider(BaseProvider):
             )
             raise ValueError("Mock invalid prompt")
         
-        return (
-            f"Mock response for prompt: {user_prompt}\n",
-            f"Model: {model}\n",
-            f"System prompt: {system_prompt}",
-        )
+        return """
+            Mock response for prompt: {user_prompt}\n,
+            Model: {model}\n,
+            System prompt: {system_prompt},
+        """

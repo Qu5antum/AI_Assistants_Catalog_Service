@@ -1,5 +1,6 @@
 import logging
 from sqlalchemy.exc import IntegrityError
+from uuid import UUID
 
 from src.database.db import AsyncSession
 from src.database.models import Category
@@ -59,3 +60,13 @@ class CategoryService:
         )
 
         return categories
+    
+    async def delete_category(self, category_id: UUID):
+        category_to_delete = await self.category_repo.delete(id=category_id)
+
+        logger.info(
+            "Category deleted successfuly",
+            extra={"category_id": category_id}
+        )
+
+        return category_to_delete
