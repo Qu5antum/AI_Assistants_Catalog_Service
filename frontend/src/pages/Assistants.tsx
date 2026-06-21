@@ -106,7 +106,7 @@ export default function Assistants() {
             ))}
           </select>
 
-          {role === 'ADMIN' && (
+          {role === 'admin' && (
             <label style={styles.checkboxLabel}>
               <input
                 type="checkbox"
@@ -160,7 +160,7 @@ export default function Assistants() {
                 <p style={styles.cardDescription}>{assistant.description}</p>
               </div>
 
-              {/* Футер карточки (Статус и кнопка действия) */}
+              {/* Футер карточки (Статус и кнопки действий) */}
               <div style={styles.cardFooter}>
                 <span style={{
                   ...styles.statusIndicator,
@@ -173,9 +173,16 @@ export default function Assistants() {
                   {assistant.is_active ? 'Активен' : 'Неактивен'}
                 </span>
 
-                <Link to={`/assistants/${assistant.id}`} style={styles.runButton}>
-                  Запустить →
-                </Link>
+                <div style={styles.buttonGroup}>
+                  {role === 'admin' && (
+                    <Link to={`/admin/assistants/${assistant.id}/edit`} style={styles.editButton}>
+                      Редактировать
+                    </Link>
+                  )}
+                  <Link to={`/assistants/${assistant.id}`} style={styles.runButton}>
+                    Запустить →
+                  </Link>
+                </div>
               </div>
             </div>
           ))}
@@ -212,7 +219,7 @@ export default function Assistants() {
 const styles: Record<string, React.CSSProperties> = {
   container: {
     padding: '40px 24px',
-    maxWidth: '1200px',
+    maxWidth: '100%',
     margin: '0 auto',
     fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
     backgroundColor: '#ffffff',
@@ -355,6 +362,12 @@ const styles: Record<string, React.CSSProperties> = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    gap: '12px',
+  },
+  buttonGroup: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '10px',
   },
   statusIndicator: {
     display: 'inline-flex',
@@ -367,6 +380,19 @@ const styles: Record<string, React.CSSProperties> = {
     width: '6px',
     height: '6px',
     borderRadius: '50%',
+  },
+  editButton: {
+    backgroundColor: '#e2e8f0',
+    color: '#0f172a',
+    textDecoration: 'none',
+    padding: '8px 14px',
+    borderRadius: '6px',
+    fontSize: '13px',
+    fontWeight: 500,
+    transition: 'background-color 0.2s, transform 0.2s',
+  },
+  editButtonHover: {
+    backgroundColor: '#cbd5e1',
   },
   runButton: {
     backgroundColor: '#18181b',

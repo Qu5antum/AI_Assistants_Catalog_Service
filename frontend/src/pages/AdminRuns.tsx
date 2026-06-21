@@ -261,7 +261,7 @@ export default function AdminRuns() {
 const styles: Record<string, React.CSSProperties> = {
   container: {
     padding: '40px 24px',
-    maxWidth: '1440px', // Увеличенная ширина для удобного горизонтального чтения таблиц логов
+    maxWidth: '100%',
     margin: '0 auto',
     fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
     backgroundColor: '#ffffff',

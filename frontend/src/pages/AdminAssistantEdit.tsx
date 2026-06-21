@@ -59,7 +59,8 @@ export default function AdminAssistantEdit() {
       .finally(() => setPageLoading(false))
   }, [id])
 
-  async function handleSubmit() {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
     if (!id) return
     
     if (!name.trim() || !description.trim() || !systemPrompt.trim() || !examplePrompt.trim() || !categoryId) {
@@ -70,7 +71,6 @@ export default function AdminAssistantEdit() {
     setLoading(true)
     setError(null)
     try {
-      // ИСПРАВЛЕНО: добавлено поле is_active, которого не было в вашем коде
       await api.updateAssistant(id, {
         name,
         description,
@@ -78,6 +78,7 @@ export default function AdminAssistantEdit() {
         system_prompt: systemPrompt,
         example_prompt: examplePrompt,
         category_id: categoryId,
+        is_active: isActive,
       })
       navigate('/assistants')
     } catch (err) {
@@ -189,6 +190,15 @@ export default function AdminAssistantEdit() {
                 <div style={styles.checkboxSub}>Снимите галочку, чтобы временно скрыть агента от пользователей</div>
               </div>
             </label>
+
+            <button
+              type="button"
+              onClick={() => setIsActive((value) => !value)}
+              style={styles.toggleButton}
+              disabled={loading}
+            >
+              {isActive ? 'Отключить ассистента' : 'Включить ассистента'}
+            </button>
           </div>
         </div>
 
@@ -257,7 +267,7 @@ export default function AdminAssistantEdit() {
 const styles: Record<string, React.CSSProperties> = {
   container: {
     padding: '40px 24px',
-    maxWidth: '1200px',
+    maxWidth: '100%',
     margin: '0 auto',
     fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
     backgroundColor: '#ffffff',
@@ -445,6 +455,17 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: '14px',
     fontWeight: 500,
     cursor: 'pointer',
+  },
+  toggleButton: {
+    backgroundColor: '#f8fafc',
+    color: '#1f2937',
+    border: '1px solid #cbd5e1',
+    padding: '10px 18px',
+    borderRadius: '8px',
+    fontSize: '14px',
+    fontWeight: 500,
+    cursor: 'pointer',
+    transition: 'background-color 0.2s, transform 0.2s',
   },
   submitButtonDisabled: {
     backgroundColor: '#e4e4e7',

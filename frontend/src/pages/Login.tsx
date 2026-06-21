@@ -90,8 +90,7 @@ export default function Login() {
 const styles: Record<string, React.CSSProperties> = {
   container: {
     display: 'flex',
-    minHeight: '100vh',
-    width: '100vw',
+    maxWidth: '100%',
     backgroundColor: '#fafafa', // Светлый чистый фон (для темной темы можно поменять на #0b0b0f)
     fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
     justifyContent: 'center',

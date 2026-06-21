@@ -129,6 +129,7 @@ export async function updateAssistant(assistantId: string, assistant: {
   system_prompt?: string
   example_prompt?: string
   category_id?: string
+  is_active?: boolean
 }) {
   return request(`/api/admin/update/assistant/${assistantId}`, {
     method: 'PUT',

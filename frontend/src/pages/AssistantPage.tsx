@@ -200,7 +200,7 @@ export default function AssistantPage() {
 const styles: Record<string, React.CSSProperties> = {
   container: {
     padding: '32px 24px',
-    maxWidth: '1280px',
+    maxWidth: '100%',
     margin: '0 auto',
     fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
     backgroundColor: '#ffffff',

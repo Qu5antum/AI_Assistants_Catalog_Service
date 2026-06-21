@@ -2,16 +2,16 @@
   /* Цветовая палитра — Светлая тема */
   --text: #4b4a5a;
   --text-h: #11101b;
-  --bg: #f7f5ff;
+  --bg: #ffffff; /* ИСПРАВЛЕНО: Задний план теперь чисто белый вместо #f7f5ff */
   --surface: #ffffff;
-  --surface-soft: #f2effd;
-  --border: #e5e4eb;
-  --border-strong: #dcd9e8;
-  --shadow: rgba(15, 15, 25, 0.08) 0 18px 40px -18px;
+  --surface-soft: #f5f4fa; /* ИСПРАВЛЕНО: Сделали подложку чуть контрастнее для белого фона */
+  --border: #e3e1e9;     /* ИСПРАВЛЕНО: Слегка затемнили границы для четкости на белом */
+  --border-strong: #d4d1df;
+  --shadow: rgba(15, 15, 25, 0.05) 0 12px 32px -12px; /* ИСПРАВЛЕНО: Мягкая тень для белого фона */
   --accent: #8c3dff;
   --accent-hover: #7432e6;
-  --accent-bg: rgba(140, 61, 255, 0.10);
-  --accent-border: rgba(140, 61, 255, 0.32);
+  --accent-bg: rgba(140, 61, 255, 0.08);
+  --accent-border: rgba(140, 61, 255, 0.28);
   --text-muted: #6b6a7c;
   --radius: 20px;
   --sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -22,6 +22,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    /* Цветовая палитра — Темная тема (осталась глубокой и комфортной для глаз) */
     --text: #d8d7e1;
     --text-h: #f8f7ff;
     --bg: #111116;
@@ -65,8 +66,8 @@ body {
 
 #root {
   width: 100%;
-  max-width: 1120px;
-  margin: 0 auto;
+  max-width: none;
+  margin: 0;
   min-height: 100vh;
   height: 100%;
 }
@@ -122,6 +123,13 @@ select:focus {
   box-shadow: 0 0 0 4px rgba(140, 61, 255, 0.18);
 }
 
+/* Динамический фокус для темной темы, чтобы свечение сочеталось с переменными */
+@media (prefers-color-scheme: dark) {
+  input:focus, textarea:focus, select:focus {
+    box-shadow: 0 0 0 4px rgba(195, 155, 255, 0.22);
+  }
+}
+
 label {
   display: inline-flex;
   margin-bottom: 8px;
@@ -131,9 +139,10 @@ label {
 }
 
 main {
-  width: min(1120px, 100%);
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
   padding: 28px 24px 36px;
+  box-sizing: border-box;
 }
 
 @media (max-width: 1024px) {
@@ -147,10 +156,6 @@ main {
 }
 
 @media (max-width: 640px) {
-  body {
-    background: var(--bg);
-  }
-
   main {
     padding: 18px 16px 26px;
   }
@@ -184,7 +189,8 @@ code {
   font-family: var(--mono);
   background: var(--surface-soft);
   padding: 0.2em 0.4em;
-  border-radius: 10px;
+  border-radius: 8px; /* Чуть уменьшен радиус для мелких элементов */
   border: 1px solid var(--border);
   color: var(--text-h);
+  font-size: 0.9em;
 }

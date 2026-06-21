@@ -1,5 +1,6 @@
 :root {
   --surface: #ffffff;
+  --bg: #ffffff; 
   --surface-soft: #f6f3ff;
   --surface-strong: #f0ebff;
   --border: #e3e0ed;
@@ -17,7 +18,8 @@
 }
 
 body {
-  background: var(--bg, #f7f5ff);
+  background: var(--bg);
+  margin: 0;
 }
 
 nav {
@@ -30,7 +32,7 @@ nav {
   justify-content: space-between;
   gap: 10px;
   padding: 18px 24px;
-  background: rgba(255, 255, 255, 0.86);
+  background: rgba(255, 255, 255, 0.98);
   border-bottom: 1px solid var(--border);
   backdrop-filter: blur(12px);
 }

@@ -250,7 +250,7 @@ export default function AdminAssistantsNew() {
 const styles: Record<string, React.CSSProperties> = {
   container: {
     padding: '40px 24px',
-    maxWidth: '1200px', // Широкий формат для двух колонок
+    maxWidth: '100%',
     margin: '0 auto',
     fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
     backgroundColor: '#ffffff',

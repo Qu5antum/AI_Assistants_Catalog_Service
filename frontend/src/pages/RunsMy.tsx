@@ -187,7 +187,7 @@ export default function RunsMy() {
 const styles: Record<string, React.CSSProperties> = {
   container: {
     padding: '40px 24px',
-    maxWidth: '1200px',
+    maxWidth: '100%',
     margin: '0 auto',
     fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
     backgroundColor: '#ffffff',
@@ -199,7 +199,7 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: '24px',
     fontWeight: 600,
     color: '#09090b',
-    margin: '0 0 6px 0',
+    margin: '0 0 6px 0',  
     letterSpacing: '-0.5px',
   },
   subtitle: {
