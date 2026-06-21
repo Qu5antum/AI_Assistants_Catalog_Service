@@ -5,7 +5,7 @@ export default function Nav() {
   const { token, role, logout } = useAuth()
 
   return (
-    <nav style={{ padding: 12, borderBottom: '1px solid #ddd' }}>
+    <nav>
       <Link to="/assistants" style={{ marginRight: 12 }}>Assistants</Link>
       <Link to="/runs/my" style={{ marginRight: 12 }}>My Runs</Link>
       <Link to="/categories" style={{ marginRight: 12 }}>Categories</Link>

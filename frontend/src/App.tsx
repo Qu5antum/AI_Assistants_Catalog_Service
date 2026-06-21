@@ -20,7 +20,7 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <Nav />
-        <main style={{ padding: 16 }}>
+        <main>
           <Routes>
             <Route path="/" element={<Navigate to="/assistants" replace />} />
             <Route path="/login" element={<Login />} />
